@@ -166,10 +166,6 @@ python container_scanner.py --scan --timeout 1200
 * Enhanced reporting formats
 * Performance optimizations
 
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## 🎯 Project Purpose
 
 Automatically scans Docker containers for security issues, identifies risks, and generates reports.
