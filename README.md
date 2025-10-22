@@ -4,9 +4,9 @@ A comprehensive container security assessment tool designed for DevOps and secur
 
 ---
 
-🚀 Quick Start
+## 🚀 Quick Start
 
-Prerequisites
+### Prerequisites
 
 ```bash
 # Install Docker
@@ -19,7 +19,7 @@ tar -xzf trivy_0.45.1_Linux-64bit.tar.gz
 sudo mv trivy /usr/local/bin/
 ```
 
-Installation & Setup
+### Installation & Setup
 
 ```bash
 # 1. Clone the repository
@@ -36,7 +36,7 @@ python container_scanner.py --scan
 python container_scanner.py --report --format json
 ```
 
-Basic Usage
+### Basic Usage
 
 ```bash
 # Scan all running containers
@@ -55,9 +55,9 @@ python container_scanner.py --scan --db /path/to/security.db
 python container_scanner.py --monitor --interval 300
 ```
 
-🎯 Usage Examples
+## 🎯 Usage Examples
 
-Basic Scanning
+### Basic Scanning
 
 ```bash
 # One-time security scan
@@ -70,7 +70,7 @@ python container_scanner.py --report --format json
 python container_scanner.py --monitor --interval 300
 ```
 
-Integration with CI/CD
+### Integration with CI/CD
 
 ```bash
 # Fail build if high risk containers found
@@ -82,7 +82,7 @@ if [ $HIGH_RISK_COUNT -gt 0 ]; then
 fi
 ```
 
-Docker Deployment
+### Docker Deployment
 
 ```bash
 # Build the scanner image
@@ -95,9 +95,9 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock container-scanner
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd)/data:/app/data container-scanner
 ```
 
-🔧 Advanced Features
+## 🔧 Advanced Features
 
-Custom Risk Thresholds
+### Custom Risk Thresholds
 
 ```json
 {
@@ -109,22 +109,24 @@ Custom Risk Thresholds
 }
 ```
 
-Alert Integration
+### Alert Integration
+
 Configure Slack/Discord webhooks for real-time alerts when high-risk containers are detected.
 
-Historical Analysis
+### Historical Analysis
+
 The SQLite database maintains scan history for trend analysis and compliance reporting.
 
-🐛 Troubleshooting
+## 🐛 Troubleshooting
 
-Trivy Installation Issues
+### Trivy Installation Issues
 
 ```bash
 # Alternative installation method
 curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
 ```
 
-Docker Permission Issues
+### Docker Permission Issues
 
 ```bash
 # Add user to docker group
@@ -132,21 +134,21 @@ sudo usermod -aG docker $USER
 newgrp docker
 ```
 
-Scan Timeout Solutions
+### Scan Timeout Solutions
 
 ```bash
 # Increase timeout for large images
 python container_scanner.py --scan --timeout 1200
 ```
 
-📈 Performance Optimization
+## 📈 Performance Optimization
 
 * Parallel Scanning: Multiple containers scanned concurrently
 * Cached Vulnerability Data: Trivy maintains local vulnerability database
 * Incremental Scanning: Only changed containers are rescanned in monitor mode
 * Efficient Database: SQLite with proper indexing for fast queries
 
-🤝 Contributing
+## 🤝 Contributing
 
 ```bash
 # Fork the repository
@@ -156,7 +158,7 @@ python container_scanner.py --scan --timeout 1200
 # Create Pull Request
 ```
 
-Areas for Contribution:
+### Areas for Contribution
 
 * New security checks
 * Additional vulnerability scanners
@@ -164,5 +166,157 @@ Areas for Contribution:
 * Enhanced reporting formats
 * Performance optimizations
 
-📄 License
+## 📄 License
+
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🎯 Project Purpose
+
+Automatically scans Docker containers for security issues, identifies risks, and generates reports.
+
+## 🔍 What It Does
+
+### 🐳 Container Discovery
+
+```bash
+# Automatically find all running Docker containers
+# Lists container IDs, names, image info, and status
+```
+
+### 🛡️ Security Checks
+
+#### Privileged Mode Check
+
+```python
+# Checks if container is running in privileged mode
+# RISK: High
+```
+
+#### Root User Check
+
+```python
+# Checks if container is running as root user
+# RISK: Medium
+```
+
+#### Exposed Ports Analysis
+
+```python
+# Checks for suspicious open ports (22, 2375, 1337, 4444, etc.)
+# RISK: Medium
+```
+
+#### Security Profiles Check
+
+```python
+# Checks if Seccomp/AppArmor profiles are active
+# RISK: Low
+```
+
+#### Dangerous Capabilities Check
+
+```python
+# Checks for dangerous Linux capabilities (SYS_ADMIN, NET_RAW, SYS_PTRACE)
+# RISK: High
+```
+
+#### Host Namespace Checks
+
+```python
+# Checks if container uses host PID/Network/IPC namespace
+# RISK: High
+```
+
+#### Readonly RootFS Check
+
+```python
+# Checks if root filesystem is read-only
+# RISK: Low
+```
+
+#### Vulnerability Scan
+
+```python
+# Checks container image for vulnerabilities using Trivy
+# Reports CRITICAL, HIGH, MEDIUM, LOW vulnerabilities
+```
+
+### Risk Scoring System
+
+```python
+# Calculates risk score 0-10 for each container
+# 0-3: Low Risk
+# 4-7: Medium Risk
+# 8-10: High Risk
+```
+
+### Database Logging
+
+```sql
+# All scan results stored in SQLite
+```
+
+### Reporting System
+
+```bash
+# Generates reports in JSON, CSV, or Text format
+python container_scanner.py --report --format json
+```
+
+## 🎯 Real-Life Scenarios
+
+### Scenario 1: Production Security Scan
+
+```bash
+# Scan all production containers
+python container_scanner.py --scan
+# OUTPUT:
+# nginx-proxy: Risk Score 9/10
+#   - PRIVILEGED: Yes
+#   - ROOT USER: Yes
+#   - CRITICAL VULNS: 3
+```
+
+### Scenario 2: CI/CD Pipeline
+
+```bash
+# Automated scan after each deployment
+python container_scanner.py --scan
+if [ $? -eq 1 ]; then
+    echo "HIGH RISK CONTAINERS - DEPLOYMENT BLOCKED"
+    exit 1
+fi
+```
+
+### Scenario 3: 24/7 Monitoring
+
+```bash
+# Continuous monitoring every 5 minutes
+python container_scanner.py --monitor --interval 300
+# Alert example if a new high-risk container appears
+# ALERT: New high-risk container: suspicious-app
+```
+
+## 🔥 Benefits for SOC Analysts
+
+* Time Saving: From 2-3 hours manually to 2-3 minutes using the tool
+* Early Detection: Identify misconfigured or vulnerable containers before production
+* Compliance: Supports PCI-DSS, HIPAA, ISO27001, and container security best practices
+* Incident Response: Quick scan of suspicious containers and prioritization based on risk score
+
+## 📊 Example Output
+
+```bash
+🚀 Starting container security scan...
+🔍 Scanning container: nginx (a1b2c3d4)
+🔍 Scanning container: redis (e5f6g7h8)
+🔍 Scanning container: postgres (i9j0k1l2)
+
+✅ Scan completed. Scanned 3 containers.
+
+🔴 nginx: Risk Score 9/10
+🟡 redis: Risk Score 5/10
+🟢 postgres: Risk Score 2/10
+
+📊 Results: 1 high-risk container found
+```
