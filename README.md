@@ -23,7 +23,7 @@ sudo mv trivy /usr/local/bin/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/yourusername/ContainerSecurityScanner.git
+git clone https://github.com/burakcanbalta/ContainerSecurityScanner.git
 cd ContainerSecurityScanner
 
 # 2. Install dependencies
